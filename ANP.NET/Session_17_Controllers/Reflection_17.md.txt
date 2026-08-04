@@ -1,0 +1,44 @@
+# Reflection_17
+
+## 1. Lab ID and derived values
+
+- Lab ID: 8
+
+### MIN_GPA_EDIT
+
+8 mod 5 = 3 ==> 2.0 + (3 × 0.3) = 2.0 + 0.9 = 2.9
+
+### MAX_YEAR_EDIT
+
+8 mod 3 = 2 ==> 2 + 2 = 4
+
+---------------------------------------------------------------------------
+
+## 2. The three places bad input can be rejected
+
+The three checkpoints, in the order they run, are:
+
+1. Route constraints – They check whether the URL matches the expected route before the controller action runs.
+2. MVC validation – Model Binding creates the model, validation checks the validation attributes, writes the result into "ModelState", 
+    and the controller uses "ModelState.IsValid" to decide whether to continue.
+3. Database constraints – SQL Server enforces database rules when "SaveChangesAsync()" executes.
+
+My Part D change belongs to the second checkpoint (MVC validation) because I changed the [Range] validation attributes on the Student model.
+
+---------------------------------------------------------------------------
+
+## 3. Why F5 no longer creates duplicate rows
+
+After a successful edit the browser is not working on the POST request. Instead it follows the redirect and loads a new page using a GET request. 
+When I press F5 the browser refreshes that GET request instead of resending the original POST request 
+,so the form data is not submitted again and no duplicate update or insert occurs.
+
+---------------------------------------------------------------------------
+
+## 4. One similarity and one difference between "[Required]"/"[MaxLength]" and "[Range]"
+
+A similarity is that all of them are validation attributes on the model class and are checked by MVC before the controller action executes.
+
+The difference is that [Required] and [MaxLength] are schema attributes that also change the database schema 
+and require a migration, while [Range] is a validation-only attribute: it is checked by MVC but doesn't modify the database schema
+,so adding or changing it does not require a migration.
