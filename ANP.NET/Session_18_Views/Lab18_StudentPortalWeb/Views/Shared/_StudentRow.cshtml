@@ -1,0 +1,63 @@
+@model Student
+@*
+    // ==========================
+    //          PART A
+    // ==========================
+    LAB 18 — Lab ID: 8 | CHIP_YEAR = 1 | CHIP_LABEL = Year 1
+
+    Model means one Student here because this partial declares @model Student, 
+    while Index.cshtml declares @model List<Student>, so Model's type depends on the @model declaration in each view.
+*@
+
+<tr>
+    <td>@Model.Id</td>
+    <td><a asp-controller="Students" asp-action="Details" asp-route-id="@Model.Id">@Model.FullName</a></td>
+    <td><year-chip for="@Model.YearOfStudy"/></td>  @* PART D*@
+    <td><gpa-badge for = "@Model.Gpa"/> </td>
+</tr>
+@* 
+    // ==========================
+    //          PART B
+    // ==========================
+
+    Run these pages:
+        /students/year/2
+        /students/honours/first
+        /students/search?name=a
+
+They look identical to before.
+
+    If <partial name="_StudentRow" /> were used without the model attribute, 
+    the partial would inherit the parent view's model (List<Student>). 
+    Since _StudentRow expects a single Student, Razor would throw a render-time model type mismatch error.
+*@
+
+@*
+    // ==========================
+    //          PART E
+    // ==========================
+    WHAT THE BROWSER RECEIVED:
+
+         <td>
+             <span class="badge bg-light text-dark" 
+                 title="rendered by ahmed">
+                 4 - Year 4
+             </span>
+         </td>
+
+
+         (a) Razor no longer recognizes <year-chip> as a Tag Helper       ==>      " <td><year-chip for="4"/></td> " 
+             ,so it is sent to the browser unchanged as an unknown HTML element.
+
+         (b) The output is rendered as a self-closing <span />,  ==>   " <td><span class="badge bg-light text-dark" title="rendered by ahmed" /></td> "
+            ,so the chip text is missing because there is no end tag to contain the content.
+
+         (c) <span class="badge bg-light text-dark" title="rendered by ahmed">4 - Year 4</span> it work and rendered successfully.
+            Important: i think it shouldnt work and treat with the year-chip element as an unknown HTML element and dosent recognise it as a TagHelper.
+            i dont know why this happen.
+
+
+         All three failures prevent the Tag Helper from running on the server 
+         ,so the browser never receives the generated <span> element.
+
+*@
